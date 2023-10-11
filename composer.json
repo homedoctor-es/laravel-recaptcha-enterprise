@@ -1,5 +1,5 @@
 {
-    "name": "oneduo/laravel-recaptcha-enterprise",
+    "name": "r4y7s/laravel-recaptcha-enterprise",
     "description": "This is my package laravel-recaptcha-enterprise",
     "keywords": [
         "oneduo",
@@ -16,9 +16,9 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.0",
         "google/cloud-recaptcha-enterprise": "^1.2",
-        "illuminate/contracts": "^9.0|^10.0",
+        "illuminate/contracts": "^8.0|^9.0|^10.0",
         "spatie/laravel-package-tools": "^1.13.0"
     },
     "require-dev": {
