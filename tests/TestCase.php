@@ -6,15 +6,17 @@ namespace Oneduo\RecaptchaEnterprise\Tests;
 
 use Oneduo\RecaptchaEnterprise\Contracts\RecaptchaContract;
 use Oneduo\RecaptchaEnterprise\RecaptchaEnterpriseServiceProvider;
-use Oneduo\RecaptchaEnterprise\Tests\Mocks\FakeRecaptchaEnterprise;
+use Oneduo\RecaptchaEnterprise\Testing\Fakes\FakeRecaptchaEnterprise;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
+
     protected function getPackageProviders($app): array
     {
         return [
             RecaptchaEnterpriseServiceProvider::class,
+            DummyServiceProvider::class,
         ];
     }
 
@@ -22,4 +24,5 @@ class TestCase extends Orchestra
     {
         $this->swap(RecaptchaContract::class, new FakeRecaptchaEnterprise());
     }
+
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oneduo\RecaptchaEnterprise\Tests\Mocks;
+namespace Oneduo\RecaptchaEnterprise\Testing\Fakes;
 
 use Carbon\CarbonInterval;
 use Google\Cloud\RecaptchaEnterprise\V1\TokenProperties;
@@ -12,6 +12,7 @@ use RuntimeException;
 
 class FakeRecaptchaEnterprise implements RecaptchaContract
 {
+
     public ?float $threshold;
 
     public function __construct(
@@ -22,7 +23,7 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
         $this->threshold = config('recaptcha-enterprise.score_threshold');
     }
 
-    public function assess(string $token): static
+    public function assess(string $token, ?string $platform = null): static
     {
         return $this;
     }
@@ -76,7 +77,7 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
     public function setScore(float $score): static
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             throw new RuntimeException('This method is only available in tests');
         }
 
@@ -87,7 +88,7 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
     public function setThreshold(float $threshold): static
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             throw new RuntimeException('This method is only available in tests');
         }
 
@@ -98,7 +99,7 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
     public function setProperties(TokenProperties $properties): static
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             throw new RuntimeException('This method is only available in tests');
         }
 
@@ -109,7 +110,7 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
     public function forceValid(bool $value = true): static
     {
-        if (! app()->runningUnitTests()) {
+        if (!app()->runningUnitTests()) {
             throw new RuntimeException('This method is only available in tests');
         }
 
@@ -117,4 +118,5 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
         return $this;
     }
+
 }

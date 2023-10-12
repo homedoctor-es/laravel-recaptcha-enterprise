@@ -6,6 +6,7 @@ use Carbon\CarbonInterval;
 
 interface RecaptchaContract
 {
+
     /**
      * Assess the token against Google reCAPTCHA Enterprise
      *
@@ -13,7 +14,7 @@ interface RecaptchaContract
      * @throws \Oneduo\RecaptchaEnterprise\Exceptions\MissingPropertiesException
      * @throws \Google\ApiCore\ApiException
      */
-    public function assess(string $token): static;
+    public function assess(string $token, ?string $platform = null): static;
 
     public function validateScore(): bool;
 
@@ -22,4 +23,5 @@ interface RecaptchaContract
     public function validateCreationTime(CarbonInterval $interval): bool;
 
     public function isValid(?string $action = null, ?CarbonInterval $interval = null): bool;
+
 }

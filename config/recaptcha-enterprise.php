@@ -3,7 +3,19 @@
 declare(strict_types=1);
 
 return [
-    'site_key' => env('RECAPTCHA_ENTERPRISE_SITE_KEY'),
+    'default_platform' => env('RECAPTCHA_ENTERPRISE_DEFAULT_PLATFORM_SITE_KEY', 'website'),
+
+    'platform' => [
+        'website' => [
+            'site_key' => env('RECAPTCHA_ENTERPRISE_WEBSITE_SITE_KEY'),
+        ],
+        // 'android' => [
+        //     'site_key' => env('RECAPTCHA_ENTERPRISE_ANDROID_SITE_KEY'),
+        // ],
+        // 'ios' => [
+        //     'site_key' => env('RECAPTCHA_ENTERPRISE_IOS_SITE_KEY'),
+        // ],
+    ],
 
     'use_credentials' => env('RECAPTCHA_ENTERPRISE_USE_CREDENTIALS', 'default'),
 

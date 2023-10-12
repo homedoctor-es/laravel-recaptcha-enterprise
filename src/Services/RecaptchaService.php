@@ -19,6 +19,7 @@ use Oneduo\RecaptchaEnterprise\Exceptions\MissingPropertiesException;
  */
 class RecaptchaService implements RecaptchaContract
 {
+
     public RecaptchaClient $client;
 
     public Assessment $assessment;
@@ -48,9 +49,10 @@ class RecaptchaService implements RecaptchaContract
         return RecaptchaClient::projectName(data_get(static::credentials(), 'project_id'));
     }
 
-    protected function siteKey(): string
+    protected function siteKeyByPlatform(?string $platform = null): string
     {
-        return config('recaptcha-enterprise.site_key');
+        $platform = $platform ?? config('recaptcha-enterprise.default_platform');
+        return config("recaptcha-enterprise.platform.{$platform}.site_key");
     }
 
     /**
@@ -60,9 +62,9 @@ class RecaptchaService implements RecaptchaContract
      * @throws InvalidTokenException
      * @throws \Google\ApiCore\ApiException
      */
-    public function assess(string $token): static
+    public function assess(string $token, ?string $platform = null): static
     {
-        $this->initAssessmentForEvent($this->event($token));
+        $this->initAssessmentForEvent($this->event($token, $this->siteKeyByPlatform($platform)));
 
         // we run the assessment through the reCAPTCHA Enterprise API client
         $this->assessment = $this->client->createAssessment($this->projectName(), $this->assessment);
@@ -78,7 +80,7 @@ class RecaptchaService implements RecaptchaContract
         }
 
         // throw an error if the token is invalid
-        if (! $this->properties->getValid()) {
+        if (!$this->properties->getValid()) {
             throw InvalidTokenException::forReason($this->properties->getInvalidReason());
         }
 
@@ -88,10 +90,10 @@ class RecaptchaService implements RecaptchaContract
         return $this;
     }
 
-    protected function event(string $token): Event
+    protected function event(string $token, string $siteKey): Event
     {
         return app(Event::class)
-            ->setSiteKey($this->siteKey())
+            ->setSiteKey($siteKey)
             ->setToken($token);
     }
 
@@ -149,4 +151,5 @@ class RecaptchaService implements RecaptchaContract
     {
         $this->client->close();
     }
+
 }
