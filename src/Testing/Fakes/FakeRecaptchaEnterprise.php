@@ -30,6 +30,10 @@ class FakeRecaptchaEnterprise implements RecaptchaContract
 
     public function validateScore(): bool
     {
+        if (is_bool($this->alwaysValid)) {
+            return $this->alwaysValid;
+        }
+
         // if no threshold is set, we assume it passes
         if ($this->threshold === null) {
             return true;
