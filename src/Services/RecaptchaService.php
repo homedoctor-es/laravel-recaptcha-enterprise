@@ -52,7 +52,7 @@ class RecaptchaService implements RecaptchaContract
     protected function siteKeyByPlatform(?string $platform = null): string
     {
         $platform = $platform ?? config('recaptcha-enterprise.default_platform');
-        return config("recaptcha-enterprise.platform.{$platform}.site_key");
+        return (string) config("recaptcha-enterprise.platform.{$platform}.site_key", '');
     }
 
     /**
